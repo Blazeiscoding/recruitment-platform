@@ -1,39 +1,38 @@
 import dotenv from "dotenv";
-
 import express from "express";
 import cors from "cors";
 import connectDB from "./config/database.js";
 
 // Import routes
 import authRoutes from "./routes/routes.js";
+
+// Load environment variables
 dotenv.config();
+
 const app = express();
 
-// Connect to database
+// Connect to the database
 connectDB();
 
-// Middleware
-app.all("*", (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: "Route not found",
-  });
-});
-
+// --- CORE MIDDLEWARE ---
+// 1. CORS: Must be one of the first to handle cross-origin requests
 app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
         ? "https://your-frontend-domain.com"
-        : "http://localhost:5000",
+        : // The origin must match the URL of your frontend application
+          "http://localhost:5173",
     credentials: true,
   })
 );
 
+// 2. Body Parsers: To parse incoming JSON and URL-encoded payloads
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Request logging middleware (development)
+// --- LOGGING MIDDLEWARE (Optional) ---
+// 3. Request Logger: Useful for debugging in development
 if (process.env.NODE_ENV === "development") {
   app.use((req, res, next) => {
     console.log(
@@ -43,7 +42,8 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
-// Health check route
+// --- API ROUTES ---
+// 4. Your application's routes
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -52,10 +52,20 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// API routes
 app.use("/api/auth", authRoutes);
 
-// Global error handler
+// --- ERROR HANDLING MIDDLEWARE ---
+// 5. 404 Not Found Handler: Catches requests that don't match any route above
+// The path '*' is invalid. A catch-all should handle all paths that were not matched before.
+// We can do this by creating a middleware without a path, which will only run if no other route has sent a response.
+app.use((req, res, next) => {
+  res.status(404).json({
+    success: false,
+    message: `Route not found for ${req.method} ${req.originalUrl}`,
+  });
+});
+
+// 6. Global Error Handler: The final stop for any errors passed via next(err)
 app.use((err, req, res, next) => {
   console.error("Global error handler:", err);
 
@@ -86,14 +96,6 @@ app.use((err, req, res, next) => {
     success: false,
     message: "Internal server error",
     error: process.env.NODE_ENV === "development" ? err.message : undefined,
-  });
-});
-
-// 404 handler
-app.use("*", (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: "Route not found",
   });
 });
 
