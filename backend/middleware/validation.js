@@ -1,7 +1,7 @@
-const { body } = require("express-validator");
+import { body } from "express-validator";
 
 // Registration validation rules
-const validateRegister = [
+export const validateRegister = [
   body("firstName")
     .trim()
     .notEmpty()
@@ -61,7 +61,7 @@ const validateRegister = [
 ];
 
 // Login validation rules
-const validateLogin = [
+export const validateLogin = [
   body("email")
     .trim()
     .notEmpty()
@@ -74,7 +74,7 @@ const validateLogin = [
 ];
 
 // Profile update validation rules
-const validateProfileUpdate = [
+export const validateProfileUpdate = [
   body("firstName")
     .optional()
     .trim()
@@ -114,9 +114,3 @@ const validateProfileUpdate = [
     .isIn(["entry", "junior", "mid", "senior", "lead"])
     .withMessage("Experience must be one of: entry, junior, mid, senior, lead"),
 ];
-
-module.exports = {
-  validateRegister,
-  validateLogin,
-  validateProfileUpdate,
-};

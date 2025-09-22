@@ -1,6 +1,7 @@
-const jwt = require("jsonwebtoken");
-const { validationResult } = require("express-validator");
-const User = require("../models/User");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { User } from "../models/User.js";
+import { validationResult } from "express-validator";
 
 // Generate JWT Token
 const generateToken = (userId) => {
@@ -10,7 +11,7 @@ const generateToken = (userId) => {
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
-const register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     // Check for validation errors
     const errors = validationResult(req);
@@ -82,7 +83,7 @@ const register = async (req, res) => {
 // @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
-const login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     // Check for validation errors
     const errors = validationResult(req);
@@ -138,7 +139,7 @@ const login = async (req, res) => {
 // @desc    Get current user profile
 // @route   GET /api/auth/profile
 // @access  Private
-const getProfile = async (req, res) => {
+export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
 
@@ -166,7 +167,7 @@ const getProfile = async (req, res) => {
 // @desc    Update user profile
 // @route   PUT /api/auth/profile
 // @access  Private
-const updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -225,11 +226,4 @@ const updateProfile = async (req, res) => {
       error: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
-};
-
-module.exports = {
-  register,
-  login,
-  getProfile,
-  updateProfile,
 };

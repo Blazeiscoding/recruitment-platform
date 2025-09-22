@@ -2,19 +2,19 @@ import express from "express";
 const router = express.Router();
 
 // Import controllers and middleware
-const {
+import {
   register,
   login,
   getProfile,
   updateProfile,
-} = require("../controllers/authController");
+} from "../controllers/authController.js";
 
-const authenticateToken = require("../middleware/auth");
-const {
+import { authenticateToken } from "../middleware/auth.js";
+import {
+  validateProfileUpdate,
   validateRegister,
   validateLogin,
-  validateProfileUpdate,
-} = require("../middleware/validation");
+} from "../middleware/validation.js";
 
 // @route   POST /api/auth/register
 // @desc    Register a new user
@@ -36,4 +36,4 @@ router.get("/profile", authenticateToken, getProfile);
 // @access  Private
 router.put("/profile", authenticateToken, validateProfileUpdate, updateProfile);
 
-module.exports = router;
+export default router;

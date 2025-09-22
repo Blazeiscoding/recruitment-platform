@@ -5,7 +5,7 @@ import cors from "cors";
 import connectDB from "./config/database.js";
 
 // Import routes
-import authRoutes from "./routes/authRoutes.js";
+import authRoutes from "./routes/routes.js";
 dotenv.config();
 const app = express();
 
@@ -13,12 +13,19 @@ const app = express();
 connectDB();
 
 // Middleware
+app.all("*", (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
+
 app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
         ? "https://your-frontend-domain.com"
-        : "http://localhost:3000",
+        : "http://localhost:5000",
     credentials: true,
   })
 );
