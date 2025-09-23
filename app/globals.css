@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7fafc; /* light gray background for contrast */
+  --background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 60%, #f8fafc 100%);
   --foreground: #111827; /* near-black text */
 }
 
@@ -18,4 +18,32 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Form + interactive elements polish */
+input,
+textarea,
+select {
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  border-color: #3b82f6 !important; /* blue-500 */
+}
+
+button {
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+}
+
+.card {
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
 }

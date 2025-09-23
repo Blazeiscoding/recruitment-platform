@@ -34,8 +34,11 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex items-center justify-center">
-      <div className="w-full max-w-md bg-white text-gray-900 p-6 rounded shadow">
-        <h1 className="text-2xl font-semibold mb-4 text-center">Login</h1>
+      <div className="w-full max-w-md bg-white text-gray-900 p-8 rounded-xl card">
+        <h1 className="text-3xl font-bold mb-2 text-center">Welcome back</h1>
+        <p className="text-center text-gray-600 mb-6">
+          Sign in to your account
+        </p>
         {error && <p className="text-red-600 mb-2">{error}</p>}
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
@@ -60,12 +63,12 @@ export default function LoginPage() {
           </div>
           <button
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Login"}
           </button>
         </form>
-        <p className="text-sm text-center mt-4">
+        <p className="text-sm text-center mt-4 text-gray-700">
           No account?{" "}
           <a href="/register" className="text-blue-600 hover:underline">
             Register
