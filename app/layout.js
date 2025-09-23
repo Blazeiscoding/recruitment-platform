@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "./globals.css";
+import NavAuth from "./components/NavAuth";
 
 const RootLayout = ({ children }) => {
   return (
@@ -13,18 +14,7 @@ const RootLayout = ({ children }) => {
                   RecruitHub
                 </Link>
                 <div className="flex space-x-4">
-                  <Link
-                    href="/login"
-                    className="text-gray-700 hover:text-blue-600"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="text-gray-700 hover:text-blue-600"
-                  >
-                    Register
-                  </Link>
+                  <NavAuth />
                 </div>
               </div>
             </div>
