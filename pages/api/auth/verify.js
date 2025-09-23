@@ -20,7 +20,21 @@ export default async function handler(req, res) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: decoded.sub },
-      select: { id: true, email: true, firstName: true, lastName: true, createdAt: true }
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        headline: true,
+        bio: true,
+        location: true,
+        skills: true,
+        experienceYears: true,
+        linkedinUrl: true,
+        portfolioUrl: true,
+        createdAt: true,
+      },
     });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -31,5 +45,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
-
-
